@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.NumberFormatException
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         expressionTextView.append(number)
+        resultTextView.text = calculateExpression()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -107,7 +109,37 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun calculateExpression(): String {
+        val expressionTexts = expressionTextView.text.split(" ")
+        if (hasOperator.not() || expressionTexts.size != 3) {
+            return ""
+        } else if (expressionTexts[0].isNumber().not() || expressionTexts[2].isNumber().not()) {
+            return ""
+        }
+
+        val exp1 = expressionTexts[0].toBigInteger()
+        val exp2 = expressionTexts[2].toBigInteger()
+        val op = expressionTexts[1]
+        return when (op) {
+            "+" -> (exp1 + exp2).toString()
+            "-" -> (exp1 - exp2).toString()
+            "*" -> (exp1 * exp2).toString()
+            "/" -> (exp1 / exp2).toString()
+            "%" -> (exp1 % exp2).toString()
+            else -> ""
+        }
+    }
+
     fun clearButtonClicked(v: View) {
 
+    }
+}
+
+fun String.isNumber(): Boolean {
+    return try {
+        this.toBigInteger()
+        true
+    } catch (e: NumberFormatException) {
+        false
     }
 }
