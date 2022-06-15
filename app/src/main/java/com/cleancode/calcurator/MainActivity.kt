@@ -133,8 +133,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }).start()
-        //TODO DB에서 모든 기록 가져오기
-        //TODO View에 모든 기록 할당하기
     }
 
     fun closeHistoryButtonClicked(v: View) {
@@ -142,8 +140,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun historyClearButtonClicked(v: View) {
-        // TODO DB에서 모든 기록 삭제
-        // TODO View에서 모든 기록 삭제
         historyLinearLayout.removeAllViews()
         Thread(Runnable {
             db.historyDao().deleteAll()
